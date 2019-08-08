@@ -8,6 +8,7 @@ Usage:
     sanity_check.py 1f
     sanity_check.py 1h
     sanity_check.py 1j
+    sanity_check.py 1i
     sanity_check.py 2a
     sanity_check.py 2b
     sanity_check.py 2c
@@ -147,7 +148,27 @@ def question_1h_sanity_check():
 
     print("Shape is right!")
     print("-" * 80)
-    
+
+def question_1i_sanity_check():
+        """ CNN check.
+            Check the dimensions of CNN output.
+        """
+	print("-" * 80)
+        print("Running Sanity Check for Question 1i: cnn")
+        print("-" * 80)
+	
+        x_input = torch.randn((3,10,21))
+        word_emb_size = 12
+        cnn = CNN(char_emb_size=x_input.size()[1], m_word=x_input.size()[2], k=5, word_emb_size=word_emb_size)
+        x_conv_out = cnn(x_input)
+        
+        assert x_conv_out.size() == (x_input.size()[0], word_emb_size), \
+            "Output size should be :{}\n but is {}\n".format((x_input.size()[0], word_emb_size),
+                                                              x_conv_out.size())
+        print("Shape is right!")
+	print("Pass sanity check for cnn. \n")
+        print("-" * 80)
+        
 
 
 def question_1j_sanity_check(model):
@@ -317,6 +338,8 @@ def main():
         question_1f_sanity_check()
     elif args['1h']:
         question_1h_sanity_check()
+    elif args['1i']:
+	question_1i_sanity_check()
     elif args['1j']:
         question_1j_sanity_check(model)
     elif args['2a']:
